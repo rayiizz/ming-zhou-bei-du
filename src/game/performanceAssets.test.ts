@@ -48,12 +48,36 @@ describe("performance asset references", () => {
     const start = styles.indexOf("@media (max-width: 480px)");
     const end = styles.indexOf("@media (max-width: 420px)");
     const narrowPhoneRules = start >= 0 && end > start ? styles.slice(start, end) : "";
+    const smallerPhoneRules = end >= 0 ? styles.slice(end) : "";
 
     expect(narrowPhoneRules).toContain(".portraits");
-    expect(narrowPhoneRules).toContain("top: 188px");
-    expect(narrowPhoneRules).toContain("height: min(34vh, 292px)");
-    expect(narrowPhoneRules).toContain("max-height: 52vh");
+    expect(narrowPhoneRules).toContain("top: 236px");
+    expect(narrowPhoneRules).toContain("height: min(26svh, 210px)");
+    expect(narrowPhoneRules).toContain("top: 184px");
+    expect(narrowPhoneRules).toContain("-webkit-line-clamp: 1");
+    expect(narrowPhoneRules).toContain("max-height: 38svh");
     expect(narrowPhoneRules).toContain("font-size: 15px");
     expect(narrowPhoneRules).toContain("min-height: 50px");
+    expect(smallerPhoneRules).not.toContain("max-height: 54vh");
+  });
+
+  it("uses mobile-safe Chinese font stacks instead of unavailable calligraphy defaults", () => {
+    const styles = readFileSync("src/styles.css", "utf8");
+
+    expect(styles).toContain("--font-ui");
+    expect(styles).toContain("PingFang SC");
+    expect(styles).toContain("Noto Sans CJK SC");
+    expect(styles).not.toContain("LXGW WenKai");
+    expect(styles).not.toContain("KaiTi");
+  });
+
+  it("centers prologue narration in the viewport without being pushed by controls", () => {
+    const styles = readFileSync("src/styles.css", "utf8");
+
+    expect(styles).toContain(".prologue-overlay");
+    expect(styles).toContain("position: fixed");
+    expect(styles).toContain("inset: 0");
+    expect(styles).toContain("place-items: center");
+    expect(styles).toContain("translate: -50% -50%");
   });
 });

@@ -10,6 +10,22 @@
   --gold: #d8a84f;
   --reed: #5d4a2f;
   --shadow: rgba(12, 18, 20, 0.42);
+  --font-ui:
+    -apple-system,
+    BlinkMacSystemFont,
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei",
+    "Noto Sans CJK SC",
+    "Source Han Sans SC",
+    sans-serif;
+  --font-display:
+    "Songti SC",
+    "STSong",
+    "Noto Serif CJK SC",
+    "Source Han Serif SC",
+    "SimSun",
+    serif;
 }
 
 * {
@@ -18,14 +34,11 @@
 
 body {
   margin: 0;
-  font-family:
-    "LXGW WenKai",
-    "STKaiti",
-    "KaiTi",
-    "Microsoft YaHei",
-    serif;
+  font-family: var(--font-ui);
   color: var(--paper);
   background: var(--ink);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 button {
@@ -86,6 +99,7 @@ button {
 .top-bar h1,
 .brand-title {
   margin: 0;
+  font-family: var(--font-display);
   font-size: 30px;
   line-height: 1;
   letter-spacing: 0;
@@ -328,6 +342,7 @@ button {
 
 .home-heading h1 {
   margin: 8px 0;
+  font-family: var(--font-display);
   color: var(--paper);
   font-size: clamp(44px, 7vw, 86px);
   line-height: 1.02;
@@ -653,34 +668,40 @@ button {
 }
 
 .prologue-overlay {
-  position: relative;
+  position: fixed;
+  inset: 0;
   z-index: 2;
   display: grid;
+  place-items: center;
   justify-items: center;
-  width: min(1100px, calc(100% - 32px));
-  min-height: 120px;
-  padding: 0;
+  width: 100%;
+  min-height: 0;
+  padding: clamp(20px, 5vw, 56px);
   text-align: center;
   color: var(--paper);
+  pointer-events: none;
 }
 
 .prologue-narration {
   position: relative;
-  width: min(980px, 100%);
-  min-height: 46px;
+  width: min(760px, calc(100% - 28px));
+  min-height: 96px;
 }
 
 .prologue-narration p {
   position: absolute;
-  inset: 0;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
   display: grid;
   place-items: center;
+  width: 100%;
   margin: 0;
   color: #fff2cc;
-  font-size: clamp(14px, 1.45vw, 18px);
-  line-height: 1.5;
+  font-size: clamp(16px, 1.65vw, 22px);
+  line-height: 1.72;
   opacity: 0;
-  white-space: nowrap;
+  white-space: normal;
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.78);
   animation: prologue-caption-once 5s ease-in-out forwards;
 }
@@ -695,6 +716,7 @@ button {
   justify-content: center;
   gap: 12px;
   animation: prologue-actions-in 520ms ease-out both;
+  pointer-events: auto;
 }
 
 .prologue-actions .text-button {
@@ -732,6 +754,7 @@ button {
 
 .tutorial-copy h1 {
   margin: 10px 0 16px;
+  font-family: var(--font-display);
   color: #2a1a0e;
   font-size: clamp(34px, 5vw, 58px);
   line-height: 1.1;
@@ -854,6 +877,7 @@ button {
 
 .archive-panel h1 {
   margin: 10px 0 16px;
+  font-family: var(--font-display);
   font-size: clamp(34px, 5vw, 58px);
   line-height: 1.1;
 }
@@ -1560,6 +1584,7 @@ button {
   padding: 12px 20px 7px;
   background: linear-gradient(180deg, rgba(157, 47, 25, 0.95), rgba(109, 31, 16, 0.92));
   color: var(--paper);
+  font-family: var(--font-display);
   font-size: 19px;
   font-weight: 900;
   animation: speaker-name-brush 0.42s ease-out 0.1s both;
@@ -1631,6 +1656,7 @@ button {
 
 .linqing-summary h1 {
   margin: 8px 0 12px;
+  font-family: var(--font-display);
   font-size: clamp(36px, 6vw, 72px);
 }
 
@@ -2286,16 +2312,19 @@ button {
   }
 
   .prologue-overlay {
-    min-height: 150px;
-    width: min(100% - 24px, 620px);
+    min-height: 0;
+    width: 100%;
+    padding: 18px;
   }
 
   .prologue-narration {
-    min-height: 120px;
+    min-height: 140px;
   }
 
   .prologue-narration p {
     white-space: normal;
+    font-size: 16px;
+    line-height: 1.7;
   }
 
   .home-hero,
@@ -2610,7 +2639,7 @@ button {
 
   .scene {
     min-height: calc(100svh - 62px);
-    padding: 10px;
+    padding: 0 10px 8px;
   }
 
   .route-cue {
@@ -2636,13 +2665,14 @@ button {
   }
 
   .case-progress {
-    top: 74px;
+    top: 70px;
     left: 10px;
     right: 10px;
   }
 
   .objective-strip {
-    min-height: 62px;
+    min-height: 52px;
+    padding: 7px 10px;
   }
 
   .objective-strip strong {
@@ -2650,11 +2680,26 @@ button {
   }
 
   .objective-strip small {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    font-size: 11px;
+  }
+
+  .case-phase {
+    margin-top: 2px;
+  }
+
+  .case-phase b,
+  .case-phase em {
+    min-height: 20px;
+    padding: 2px 7px;
     font-size: 11px;
   }
 
   .npc-switcher {
-    top: 148px;
+    top: 184px;
     left: 10px;
     right: 10px;
     justify-content: flex-start;
@@ -2670,17 +2715,17 @@ button {
   }
 
   .portraits {
-    top: 188px;
+    top: 236px;
     min-height: 0;
-    height: min(34vh, 292px);
+    height: min(26svh, 210px);
     align-items: flex-end;
     overflow: hidden;
   }
 
   .portrait {
     width: min(49vw, 190px);
-    height: min(34vh, 292px);
-    padding-bottom: 10px;
+    height: min(26svh, 210px);
+    padding-bottom: 8px;
     background-size: auto 106%;
     background-position: center bottom;
   }
@@ -2703,8 +2748,10 @@ button {
   .dialogue-panel {
     bottom: max(8px, env(safe-area-inset-bottom));
     width: calc(100vw - 20px);
-    max-height: 52vh;
+    max-height: 38svh;
     border-radius: 8px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .speaker-name {
@@ -3066,10 +3113,10 @@ button {
   }
 
   .portrait {
-    height: min(32vh, 270px);
+    height: min(25svh, 200px);
   }
 
   .dialogue-panel {
-    max-height: 54vh;
+    max-height: 38svh;
   }
 }
