@@ -26,20 +26,17 @@ describe("DialogueScene", () => {
   it("renders cinematic case staging metadata", () => {
     render(<DialogueScene state={storyState()} setState={() => {}} onOpenArchive={() => {}} />);
 
-    expect(screen.getByLabelText("沉船案场景信息")).toBeInTheDocument();
-    expect(screen.getByText("徐州临时官署与运河码头")).toBeInTheDocument();
-    expect(screen.queryByText("漕粮督运官 · 克制")).not.toBeInTheDocument();
+    expect(screen.queryByText("当前案卷")).not.toBeInTheDocument();
+    expect(screen.getByLabelText("可问询人物菜单")).toBeInTheDocument();
     expect(screen.getByLabelText("大运河环境层")).toBeInTheDocument();
   });
 
   it("renders compact investigation status without exposing a deduction chain", () => {
     render(<DialogueScene state={storyState()} setState={() => {}} onOpenArchive={() => {}} />);
 
-    expect(screen.getByText("当前调查")).toBeInTheDocument();
-    expect(screen.getByText("永乐号为何沉没")).toBeInTheDocument();
-    expect(screen.getByText("案卷资料 0")).toBeInTheDocument();
-    expect(screen.getByText("阶段一")).toBeInTheDocument();
-    expect(screen.getByText("初访")).toBeInTheDocument();
+    expect(screen.queryByLabelText("调查进度")).not.toBeInTheDocument();
+    expect(screen.queryByText("当前调查")).not.toBeInTheDocument();
+    expect(screen.getByLabelText("可问询人物菜单")).toBeInTheDocument();
     expect(screen.queryByText("推理链")).not.toBeInTheDocument();
   });
 
@@ -120,7 +117,7 @@ describe("DialogueScene", () => {
     render(<DialogueScene state={linState} setState={() => {}} onOpenArchive={() => {}} />);
 
     expect(screen.getByLabelText("永乐号沉船案")).toHaveClass("scene-npc-lin");
-    expect(screen.getByText("客栈案桌与运河路线图")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /林文绮/ })).toHaveClass("npc-tab-active");
     expect(screen.getByLabelText("林文绮立绘")).toHaveClass("portrait-npc-lin");
   });
 
@@ -171,6 +168,17 @@ describe("DialogueScene", () => {
     expect(playerPortrait.querySelector("small")).toHaveTextContent("案卷整理者");
     expect(npcPortrait.querySelector("span")).toHaveTextContent("王淮远");
     expect(npcPortrait.querySelector("small")).toHaveTextContent("漕粮督运官");
+  });
+
+  it("uses a character menu instead of separate case-status modules", () => {
+    render(<DialogueScene state={storyState()} setState={() => {}} onOpenArchive={() => {}} />);
+
+    expect(screen.getByLabelText("可问询人物菜单")).toBeInTheDocument();
+    expect(screen.queryByLabelText("调查进度")).not.toBeInTheDocument();
+    expect(screen.queryByText("当前案卷")).not.toBeInTheDocument();
+    for (const npc of npcProfiles) {
+      expect(screen.getByRole("button", { name: npc.name })).toHaveTextContent(npc.name);
+    }
   });
 
   it("switches to NPC-specific suggested choices", async () => {

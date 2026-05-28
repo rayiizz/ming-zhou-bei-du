@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { requestAiReply } from "../game/ai";
-import { getCasePhase } from "../game/caseProgression";
 import { presentEvidenceToNpc } from "../game/evidencePresentation";
 import { getFollowUpChoices } from "../game/followUpDialogue";
 import { connectClues, insightCatalog } from "../game/insightBoard";
 import { completeInvestigation, selectNpc, submitPlayerMessage, submitSuggestedChoice } from "../game/investigation";
-import { getInvestigationStatus } from "../game/investigationProgress";
 import { clueCards } from "../game/knowledge";
 import { npcDialogueCatalog, npcVisuals } from "../game/npcDialogue";
 import { npcProfiles } from "../game/npcs";
@@ -25,7 +23,6 @@ interface DialogueSceneProps {
   setState: React.Dispatch<React.SetStateAction<InvestigationState>>;
   onOpenArchive: () => void;
 }
-
 const directCauseOptions: Array<{ id: DirectCause; label: string; hint: string }> = [
   { id: "night-risk", label: "徐州夜行险段", hint: "水势、暗礁与夜航时机叠加" },
   { id: "hull-failure", label: "船板旧伤与水势冲击", hint: "船身带病进入最险一段河道" },
@@ -71,8 +68,6 @@ export function DialogueScene({ state, setState, onOpenArchive }: DialogueSceneP
     [state.activeNpcId]
   );
   const activeVisual = npcVisuals[state.activeNpcId];
-  const investigationStatus = getInvestigationStatus(state);
-  const casePhase = getCasePhase(state);
   const unlockedClueCards = clueCards.filter((clue) => state.unlockedClues.includes(clue.id));
   const unlockedInsights = insightCatalog.filter((insight) => state.unlockedInsights.includes(insight.id));
   const visibleChoices = useMemo(() => {
@@ -190,42 +185,25 @@ export function DialogueScene({ state, setState, onOpenArchive }: DialogueSceneP
           <span className="grain-sacks" />
         </div>
       </div>
-
-      <div className="location-card location-card-cinematic" aria-label="沉船案场景信息">
-        <span>当前案卷</span>
-        <strong>永乐号沉船案</strong>
-        <small>{activeVisual.backgroundLabel}</small>
-      </div>
-
       <button className="evidence-chip" onClick={onOpenArchive} aria-label="打开案卷图鉴">
         案卷 {state.unlockedKnowledge.length + state.unlockedClues.length}
       </button>
-
-      <aside className="case-progress" aria-label="调查进度">
-        <div className="objective-strip">
-          <span>{investigationStatus.label}</span>
-          <strong>{investigationStatus.headline}</strong>
-          <small>{investigationStatus.archiveText}</small>
-          <div className="case-phase">
-            <b>{casePhase.label}</b>
-            <em>{casePhase.title}</em>
-          </div>
+      <div className="npc-menu" aria-label="可问询人物菜单">
+        <span>人物</span>
+        <div className="npc-switcher" aria-label="可问询人物">
+          {npcProfiles.map((npc) => (
+            <button
+              key={npc.id}
+              className={npc.id === state.activeNpcId ? "npc-tab npc-tab-active" : "npc-tab"}
+              aria-label={npc.name}
+              onClick={() => chooseNpc(npc.id)}
+            >
+              <span>{npc.name}</span>
+              <small>{npc.role}</small>
+            </button>
+          ))}
         </div>
-      </aside>
-
-      <div className="npc-switcher" aria-label="可问询人物">
-        {npcProfiles.map((npc) => (
-          <button
-            key={npc.id}
-            className={npc.id === state.activeNpcId ? "npc-tab npc-tab-active" : "npc-tab"}
-            aria-label={npc.name}
-            onClick={() => chooseNpc(npc.id)}
-          >
-            {npc.name.slice(0, 1)}
-          </button>
-        ))}
       </div>
-
       <div className="portraits" aria-label="对话人物">
         <div
           className={`portrait portrait-left ${isPlayerSpeaking ? "portrait-speaking" : "portrait-dimmed"}`}

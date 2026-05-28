@@ -20,7 +20,6 @@ interface LinqingChapterProps {
   initialSnapshot?: LinqingChapterSnapshot;
   onSnapshotChange?: (snapshot: LinqingChapterSnapshot) => void;
 }
-
 function unique<T>(items: T[]) {
   return Array.from(new Set(items));
 }
@@ -207,33 +206,22 @@ export function LinqingChapter({ onBackHome, initialSnapshot, onSnapshotChange }
         <div className="grain-boat boat-one" />
         <div className="grain-boat boat-two" />
       </div>
-      <div className="location-card location-card-cinematic" aria-label="临清钞关场景信息">
-        <span>当前案卷</span>
-        <strong>临清钞关疑账</strong>
-        <small>{activeNpc.backgroundLabel}</small>
-      </div>
-
-      <aside className="case-progress linqing-case-progress" aria-label="临清疑账进度">
-        <div className="objective-strip">
-          <span>临清调查</span>
-          <strong>税票、船单与夜货</strong>
-          <small>{`疑账线索 ${unlockedEvidence.length}/${linqingEvidence.length}`}</small>
+      <div className="npc-menu" aria-label="临清可问询人物菜单">
+        <span>人物</span>
+        <div className="npc-switcher" aria-label="临清可问询人物">
+          {linqingNpcs.map((npc) => (
+            <button
+              key={npc.id}
+              aria-label={npc.name}
+              className={npc.id === activeNpcId ? "npc-tab npc-tab-active" : "npc-tab"}
+              onClick={() => switchNpc(npc.id)}
+            >
+              <span>{npc.name}</span>
+              <small>{npc.role}</small>
+            </button>
+          ))}
         </div>
-      </aside>
-
-      <div className="npc-switcher" aria-label="临清可问询人物">
-        {linqingNpcs.map((npc) => (
-          <button
-            key={npc.id}
-            aria-label={npc.name}
-            className={npc.id === activeNpcId ? "npc-tab npc-tab-active" : "npc-tab"}
-            onClick={() => switchNpc(npc.id)}
-          >
-            {npc.name.slice(0, 1)}
-          </button>
-        ))}
       </div>
-
       <div className="portraits" aria-label="临清对话人物">
         <div
           className={`portrait portrait-left ${isPlayerSpeaking ? "portrait-speaking" : "portrait-dimmed"}`}

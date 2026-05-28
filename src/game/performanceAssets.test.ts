@@ -51,10 +51,10 @@ describe("performance asset references", () => {
     const smallerPhoneRules = end >= 0 ? styles.slice(end) : "";
 
     expect(narrowPhoneRules).toContain(".portraits");
-    expect(narrowPhoneRules).toContain("top: 128px");
-    expect(narrowPhoneRules).toContain("height: min(33svh, 270px)");
-    expect(narrowPhoneRules).toContain("top: 76px");
-    expect(narrowPhoneRules).toContain("grid-template-columns: auto 1fr auto");
+    expect(narrowPhoneRules).toContain("top: 118px");
+    expect(narrowPhoneRules).toContain("height: min(34svh, 286px)");
+    expect(narrowPhoneRules).toContain(".npc-menu");
+    expect(narrowPhoneRules).toContain("flex: 0 0 112px");
     expect(narrowPhoneRules).toContain("text-overflow: ellipsis");
     expect(narrowPhoneRules).toContain("max-height: 42svh");
     expect(narrowPhoneRules).toContain("font-size: 15px");
@@ -72,6 +72,9 @@ describe("performance asset references", () => {
     expect(styles).not.toContain("LXGW WenKai");
     expect(styles).toContain("KaiTi");
     expect(styles).toContain("Kaiti SC");
+    expect(styles).toContain("KaiTi_GB2312");
+    expect(styles).toContain("BiauKai");
+    expect(styles).toContain("AR PL UKai CN");
     expect(styles).toContain("font-family: var(--font-ui)");
   });
 
@@ -83,12 +86,22 @@ describe("performance asset references", () => {
 
     expect(narrowPhoneRules).toContain(".route-cue");
     expect(narrowPhoneRules).toContain("display: none");
-    expect(narrowPhoneRules).toContain(".objective-strip small");
+    expect(narrowPhoneRules).toContain(".npc-menu");
     expect(narrowPhoneRules).toContain("top: 12px");
-    expect(narrowPhoneRules).toContain("top: 76px");
-    expect(narrowPhoneRules).toContain("top: 128px");
+    expect(narrowPhoneRules).toContain("top: 118px");
     expect(narrowPhoneRules).toContain("max-height: 42svh");
     expect(narrowPhoneRules).toContain("border-image");
+  });
+
+  it("keeps phone portraits fully visible instead of cropping enlarged standees", () => {
+    const styles = readFileSync("src/styles.css", "utf8");
+    const start = styles.indexOf("@media (max-width: 480px)");
+    const end = styles.indexOf("@media (max-width: 420px)");
+    const narrowPhoneRules = start >= 0 && end > start ? styles.slice(start, end) : "";
+
+    expect(narrowPhoneRules).toContain("background-size: contain");
+    expect(narrowPhoneRules).not.toContain("background-size: auto 106%");
+    expect(narrowPhoneRules).toContain("overflow: visible");
   });
 
   it("centers prologue narration in the viewport without being pushed by controls", () => {

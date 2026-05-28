@@ -8,14 +8,14 @@ describe("LinqingChapter", () => {
     render(<LinqingChapter onBackHome={() => {}} />);
 
     expect(screen.getByLabelText("临清钞关疑账")).toBeInTheDocument();
-    expect(screen.getByText("临清钞关疑账")).toBeInTheDocument();
+    expect(screen.getByLabelText("临清可问询人物菜单")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "顾承槐" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "罗万舟" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "马三" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "许应年" })).toBeInTheDocument();
     expect(screen.getByPlaceholderText("写下你的钞关问询")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "出示证据" })).toBeInTheDocument();
-    expect(screen.getByText("疑账线索 0/5")).toBeInTheDocument();
+    expect(screen.queryByText("疑账线索 0/5")).not.toBeInTheDocument();
   });
 
   it("unlocks evidence through dialogue and completes the customs dossier", async () => {
@@ -26,7 +26,7 @@ describe("LinqingChapter", () => {
     await userEvent.click(screen.getByRole("button", { name: "继续" }));
 
     expect(screen.getByText("异常税票")).toBeInTheDocument();
-    expect(screen.getByText("疑账线索 2/5")).toBeInTheDocument();
+    expect(screen.queryByText("疑账线索 2/5")).not.toBeInTheDocument();
 
     await userEvent.click(screen.getByRole("button", { name: "形成疑账卷宗" }));
     await userEvent.click(screen.getByRole("button", { name: "低报税额" }));

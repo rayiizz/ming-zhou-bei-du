@@ -23,6 +23,11 @@
     "Kaiti SC",
     "STKaiti",
     "KaiTi",
+    "KaiTi_GB2312",
+    "FZKai-Z03",
+    "DFKai-SB",
+    "BiauKai",
+    "AR PL UKai CN",
     "Songti SC",
     "STSong",
     "Noto Serif CJK SC",
@@ -1358,19 +1363,42 @@ button {
   color: #f4dfad;
 }
 
-.npc-switcher {
+.npc-menu {
   position: absolute;
   right: 26px;
   top: 78px;
   z-index: 3;
+  width: min(168px, calc(100% - 52px));
+  padding: 10px;
+  border: 1px solid rgba(216, 168, 79, 0.38);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(17, 28, 31, 0.76), rgba(17, 28, 31, 0.52)),
+    rgba(255, 244, 216, 0.06);
+}
+
+.npc-menu > span {
+  display: block;
+  margin: 0 0 8px;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.npc-switcher {
   display: grid;
   gap: 8px;
 }
 
 .npc-tab {
-  width: 42px;
-  height: 42px;
+  display: grid;
+  gap: 2px;
+  justify-items: start;
+  width: 100%;
+  min-height: 42px;
+  padding: 7px 10px;
   border-radius: 8px;
+  text-align: left;
   color: var(--paper);
   background: rgba(17, 28, 31, 0.74);
   border: 1px solid rgba(216, 168, 79, 0.44);
@@ -1380,6 +1408,15 @@ button {
     background 0.18s ease,
     border-color 0.18s ease,
     color 0.18s ease;
+}
+
+.npc-tab span {
+  font-size: 14px;
+}
+
+.npc-tab small {
+  color: rgba(244, 223, 173, 0.72);
+  font-size: 10px;
 }
 
 .npc-tab:hover {
@@ -2418,16 +2455,12 @@ button {
   }
 
   .npc-switcher {
-    left: 14px;
-    right: 14px;
-    top: 168px;
     display: flex;
     justify-content: flex-end;
   }
 
   .npc-tab {
-    width: 38px;
-    height: 38px;
+    width: 110px;
   }
 
   .portraits {
@@ -2649,86 +2682,59 @@ button {
     display: none;
   }
 
-  .case-progress {
+  .npc-menu {
     top: 12px;
     left: 10px;
     right: 10px;
+    width: auto;
+    padding: 8px;
   }
 
-  .objective-strip {
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 8px;
-    min-height: 48px;
-    padding: 7px 12px;
-    background:
-      linear-gradient(90deg, rgba(24, 32, 31, 0.72), rgba(51, 31, 18, 0.54)),
-      rgba(255, 244, 216, 0.06);
-  }
-
-  .objective-strip span {
-    font-size: 11px;
-    white-space: nowrap;
-  }
-
-  .objective-strip strong {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 14px;
-  }
-
-  .objective-strip small {
-    display: none;
-  }
-
-  .case-phase {
-    margin-top: 2px;
-  }
-
-  .case-phase em {
-    display: none;
-  }
-
-  .case-phase b,
-  .case-phase em {
-    min-height: 20px;
-    padding: 2px 7px;
-    font-size: 11px;
-    white-space: nowrap;
+  .npc-menu > span {
+    margin-bottom: 6px;
   }
 
   .npc-switcher {
-    top: 76px;
-    left: 10px;
-    right: 10px;
+    display: flex;
     justify-content: flex-start;
     overflow-x: auto;
     gap: 6px;
-    padding: 0 2px 4px;
+    padding: 0 2px 4px 0;
     pointer-events: auto;
   }
 
   .npc-tab {
-    flex: 0 0 38px;
-    width: 38px;
-    height: 38px;
+    flex: 0 0 112px;
+    width: 112px;
+    min-height: 42px;
+    padding: 6px 9px;
     background: rgba(17, 28, 31, 0.66);
   }
 
-  .portraits {
-    top: 128px;
-    min-height: 0;
-    height: min(33svh, 270px);
-    align-items: flex-end;
+  .npc-tab span {
+    font-size: 13px;
+  }
+
+  .npc-tab small {
     overflow: hidden;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .portraits {
+    top: 118px;
+    min-height: 0;
+    height: min(34svh, 286px);
+    align-items: flex-end;
+    overflow: visible;
   }
 
   .portrait {
     width: min(49vw, 190px);
-    height: min(33svh, 270px);
+    height: min(34svh, 286px);
     padding-bottom: 8px;
-    background-size: auto 106%;
+    background-size: contain;
     background-position: center bottom;
   }
 
@@ -3116,7 +3122,7 @@ button {
 
 @media (max-width: 420px) {
   .portrait {
-    height: min(31svh, 250px);
+    height: min(32svh, 260px);
   }
 
   .dialogue-panel {
