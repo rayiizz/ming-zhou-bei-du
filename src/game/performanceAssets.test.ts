@@ -42,4 +42,18 @@ describe("performance asset references", () => {
     expect(source).not.toContain('"/assets/');
     expect(source).not.toContain("url(\"/assets/");
   });
+
+  it("keeps a dedicated narrow-phone layout for cinematic dialogue scenes", () => {
+    const styles = readFileSync("src/styles.css", "utf8");
+    const start = styles.indexOf("@media (max-width: 480px)");
+    const end = styles.indexOf("@media (max-width: 420px)");
+    const narrowPhoneRules = start >= 0 && end > start ? styles.slice(start, end) : "";
+
+    expect(narrowPhoneRules).toContain(".portraits");
+    expect(narrowPhoneRules).toContain("top: 188px");
+    expect(narrowPhoneRules).toContain("height: min(34vh, 292px)");
+    expect(narrowPhoneRules).toContain("max-height: 52vh");
+    expect(narrowPhoneRules).toContain("font-size: 15px");
+    expect(narrowPhoneRules).toContain("min-height: 50px");
+  });
 });
