@@ -20,6 +20,9 @@
     "Source Han Sans SC",
     sans-serif;
   --font-display:
+    "Kaiti SC",
+    "STKaiti",
+    "KaiTi",
     "Songti SC",
     "STSong",
     "Noto Serif CJK SC",
@@ -2643,52 +2646,48 @@ button {
   }
 
   .route-cue {
-    padding: 9px 10px;
-    gap: 8px;
-  }
-
-  .route-title strong {
-    font-size: 15px;
-  }
-
-  .route-title small {
-    font-size: 11px;
-  }
-
-  .route-line {
-    overflow-x: auto;
-    padding-bottom: 4px;
-  }
-
-  .route-stop {
-    min-width: 48px;
+    display: none;
   }
 
   .case-progress {
-    top: 70px;
+    top: 12px;
     left: 10px;
     right: 10px;
   }
 
   .objective-strip {
-    min-height: 52px;
-    padding: 7px 10px;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 7px 12px;
+    background:
+      linear-gradient(90deg, rgba(24, 32, 31, 0.72), rgba(51, 31, 18, 0.54)),
+      rgba(255, 244, 216, 0.06);
+  }
+
+  .objective-strip span {
+    font-size: 11px;
+    white-space: nowrap;
   }
 
   .objective-strip strong {
-    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
   }
 
   .objective-strip small {
-    display: -webkit-box;
-    overflow: hidden;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    font-size: 11px;
+    display: none;
   }
 
   .case-phase {
     margin-top: 2px;
+  }
+
+  .case-phase em {
+    display: none;
   }
 
   .case-phase b,
@@ -2696,35 +2695,38 @@ button {
     min-height: 20px;
     padding: 2px 7px;
     font-size: 11px;
+    white-space: nowrap;
   }
 
   .npc-switcher {
-    top: 184px;
+    top: 76px;
     left: 10px;
     right: 10px;
     justify-content: flex-start;
     overflow-x: auto;
-    padding-bottom: 2px;
+    gap: 6px;
+    padding: 0 2px 4px;
     pointer-events: auto;
   }
 
   .npc-tab {
-    flex: 0 0 40px;
-    width: 40px;
-    height: 40px;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    background: rgba(17, 28, 31, 0.66);
   }
 
   .portraits {
-    top: 236px;
+    top: 128px;
     min-height: 0;
-    height: min(26svh, 210px);
+    height: min(33svh, 270px);
     align-items: flex-end;
     overflow: hidden;
   }
 
   .portrait {
     width: min(49vw, 190px);
-    height: min(26svh, 210px);
+    height: min(33svh, 270px);
     padding-bottom: 8px;
     background-size: auto 106%;
     background-position: center bottom;
@@ -2748,8 +2750,13 @@ button {
   .dialogue-panel {
     bottom: max(8px, env(safe-area-inset-bottom));
     width: calc(100vw - 20px);
-    max-height: 38svh;
+    max-height: 42svh;
     border-radius: 8px;
+    border: 10px solid transparent;
+    border-image: linear-gradient(90deg, rgba(216, 168, 79, 0.92), rgba(255, 244, 216, 0.42), rgba(216, 168, 79, 0.92)) 1;
+    background:
+      linear-gradient(90deg, rgba(12, 18, 20, 0.82), rgba(35, 26, 18, 0.7)) padding-box,
+      linear-gradient(180deg, rgba(255, 244, 216, 0.16), rgba(255, 244, 216, 0.05)) padding-box;
     overflow-y: auto;
     overscroll-behavior: contain;
   }
@@ -3108,15 +3115,11 @@ button {
 }
 
 @media (max-width: 420px) {
-  .route-stop span {
-    font-size: 11px;
-  }
-
   .portrait {
-    height: min(25svh, 200px);
+    height: min(31svh, 250px);
   }
 
   .dialogue-panel {
-    max-height: 38svh;
+    max-height: 42svh;
   }
 }

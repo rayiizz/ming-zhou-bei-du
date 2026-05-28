@@ -51,11 +51,12 @@ describe("performance asset references", () => {
     const smallerPhoneRules = end >= 0 ? styles.slice(end) : "";
 
     expect(narrowPhoneRules).toContain(".portraits");
-    expect(narrowPhoneRules).toContain("top: 236px");
-    expect(narrowPhoneRules).toContain("height: min(26svh, 210px)");
-    expect(narrowPhoneRules).toContain("top: 184px");
-    expect(narrowPhoneRules).toContain("-webkit-line-clamp: 1");
-    expect(narrowPhoneRules).toContain("max-height: 38svh");
+    expect(narrowPhoneRules).toContain("top: 128px");
+    expect(narrowPhoneRules).toContain("height: min(33svh, 270px)");
+    expect(narrowPhoneRules).toContain("top: 76px");
+    expect(narrowPhoneRules).toContain("grid-template-columns: auto 1fr auto");
+    expect(narrowPhoneRules).toContain("text-overflow: ellipsis");
+    expect(narrowPhoneRules).toContain("max-height: 42svh");
     expect(narrowPhoneRules).toContain("font-size: 15px");
     expect(narrowPhoneRules).toContain("min-height: 50px");
     expect(smallerPhoneRules).not.toContain("max-height: 54vh");
@@ -65,10 +66,29 @@ describe("performance asset references", () => {
     const styles = readFileSync("src/styles.css", "utf8");
 
     expect(styles).toContain("--font-ui");
+    expect(styles).toContain("--font-display");
     expect(styles).toContain("PingFang SC");
     expect(styles).toContain("Noto Sans CJK SC");
     expect(styles).not.toContain("LXGW WenKai");
-    expect(styles).not.toContain("KaiTi");
+    expect(styles).toContain("KaiTi");
+    expect(styles).toContain("Kaiti SC");
+    expect(styles).toContain("font-family: var(--font-ui)");
+  });
+
+  it("declutters the phone dialogue layout so the game view reads as a visual novel", () => {
+    const styles = readFileSync("src/styles.css", "utf8");
+    const start = styles.indexOf("@media (max-width: 480px)");
+    const end = styles.indexOf("@media (max-width: 420px)");
+    const narrowPhoneRules = start >= 0 && end > start ? styles.slice(start, end) : "";
+
+    expect(narrowPhoneRules).toContain(".route-cue");
+    expect(narrowPhoneRules).toContain("display: none");
+    expect(narrowPhoneRules).toContain(".objective-strip small");
+    expect(narrowPhoneRules).toContain("top: 12px");
+    expect(narrowPhoneRules).toContain("top: 76px");
+    expect(narrowPhoneRules).toContain("top: 128px");
+    expect(narrowPhoneRules).toContain("max-height: 42svh");
+    expect(narrowPhoneRules).toContain("border-image");
   });
 
   it("centers prologue narration in the viewport without being pushed by controls", () => {
