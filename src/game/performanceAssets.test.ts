@@ -62,20 +62,19 @@ describe("performance asset references", () => {
     expect(smallerPhoneRules).not.toContain("max-height: 54vh");
   });
 
-  it("uses mobile-safe Chinese font stacks instead of unavailable calligraphy defaults", () => {
+  it("loads a bundled web-safe wenkai face and applies it to the full game UI", () => {
     const styles = readFileSync("src/styles.css", "utf8");
 
     expect(styles).toContain("--font-ui");
     expect(styles).toContain("--font-display");
-    expect(styles).toContain("PingFang SC");
-    expect(styles).toContain("Noto Sans CJK SC");
-    expect(styles).not.toContain("LXGW WenKai");
+    expect(styles).toContain("lxgw-wenkai-lite-webfont");
+    expect(styles).toContain("LXGW WenKai Lite");
     expect(styles).toContain("KaiTi");
     expect(styles).toContain("Kaiti SC");
     expect(styles).toContain("KaiTi_GB2312");
     expect(styles).toContain("BiauKai");
     expect(styles).toContain("AR PL UKai CN");
-    expect(styles).toContain("font-family: var(--font-ui)");
+    expect(styles).toContain("body {\n  margin: 0;\n  font-family: var(--font-display)");
   });
 
   it("declutters the phone dialogue layout so the game view reads as a visual novel", () => {

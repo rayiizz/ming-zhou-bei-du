@@ -1,3 +1,5 @@
+@import url("https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.7.0/style.min.css");
+
 :root {
   --ink: #142126;
   --deep-water: #173f49;
@@ -11,6 +13,7 @@
   --reed: #5d4a2f;
   --shadow: rgba(12, 18, 20, 0.42);
   --font-ui:
+    "LXGW WenKai Lite",
     -apple-system,
     BlinkMacSystemFont,
     "PingFang SC",
@@ -20,6 +23,7 @@
     "Source Han Sans SC",
     sans-serif;
   --font-display:
+    "LXGW WenKai Lite",
     "Kaiti SC",
     "STKaiti",
     "KaiTi",
@@ -42,7 +46,7 @@
 
 body {
   margin: 0;
-  font-family: var(--font-ui);
+  font-family: var(--font-display);
   color: var(--paper);
   background: var(--ink);
   text-rendering: optimizeLegibility;
